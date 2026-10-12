@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Authorization Complete — Dial-Up Diaries</title>
+<style>
+  body { font-family: 'Courier New', monospace; background: #0a0a1a; color: #e0e0ff; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; text-align: center; }
+  h1 { color: #ff6ec7; }
+  #code { background: #1a1a3a; border: 2px solid #7df9ff; border-radius: 8px; padding: 16px; margin: 20px 0; word-break: break-all; font-size: 14px; max-width: 90vw; }
+  button { padding: 12px 28px; background: #ff6ec7; color: #0a0a1a; border: none; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; font-family: inherit; }
+  p { max-width: 500px; line-height: 1.6; }
+</style>
+</head>
+<body>
+  <h1>You're authorized ✅</h1>
+  <p>Copy the code below and send it back in the chat:</p>
+  <div id="code">waiting…</div>
+  <button onclick="copyCode()">Copy code</button>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('code');
+    const err = params.get('error');
+    const el = document.getElementById('code');
+    if (code) { el.textContent = code; }
+    else if (err) { el.textContent = 'Error: ' + err; }
+    else { el.textContent = 'No code found in URL.'; }
+    function copyCode() {
+      navigator.clipboard.writeText(el.textContent).then(() => {
+        document.querySelector('button').textContent = 'Copied!';
+      });
+    }
+  </script>
+</body>
+</html>
